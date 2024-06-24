@@ -13,7 +13,7 @@ qualityRoutes = require('./controller/quality/quaalitycontrol')
 salesRoutes = require('./controller/sales/salescontrol')
 purchaseRoutes = require ('./controller/purchase/purchasecontrol')
 orderhistoryRoutes = require('./controller/orderhistory/orderhistrycontrol')
-// loginRoutes = require('./Auth/login');
+loginRoutes = require('./Auth/login');
 // uploadcartsRouter= require('./conrtoller/cartsControllerFolder/cartsControl')
 
 //middleware
@@ -27,7 +27,7 @@ app.use('/api/quality',qualityRoutes)
 app.use('/api/sales',salesRoutes)
 app.use('/api/purchase',purchaseRoutes)
 app.use('/api/orderhistory',orderhistoryRoutes)
-// app.use('/login',loginRoutes);
+app.use('/login',loginRoutes);
 // app.use('/cartsuploaded',uploadcartsRouter)
 
 
