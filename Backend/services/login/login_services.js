@@ -4,7 +4,7 @@ class loginservice {
   async getClientByEmailANDPassword( client_name,email,password) {
     try {
       const [client] = await db.query(
-        "SELECT * FROM clients WHERE Email = ? AND Password = ?",
+        "SELECT * FROM clients WHERE email = ? AND password = ?",
         [email, password]
       );
       return client;
