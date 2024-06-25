@@ -1,7 +1,7 @@
 const db = require("../../db");
 
 class loginservice {
-  async getClientByEmailANDPassword(email,password) {
+  async getClientByEmailANDPassword( client_name,email,password) {
     try {
       const [client] = await db.query(
         "SELECT * FROM clients WHERE Email = ? AND Password = ?",

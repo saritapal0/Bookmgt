@@ -7,18 +7,16 @@ const loginservice = require("../services/login/login_services");
 const secret_key = '12';
 
 router.post("/login", async (req, res) => {
-  const { Email, Password } = req.body;
+  const { client_name ,email, password } = req.body;
   try {
-    const client = await loginservice.getClientByEmailANDPassword(Email, Password);
+    const client = await loginservice.getClientByEmailANDPassword(client_name,email,password);
     if (client && client.length > 0) {
       const clientData = {
         id: client[0].client_id,
         name: client[0].client_name,
-        Email: client[0].email,
-        Password: client[0].password,
-        Phone: client[0].phone_number,
-        address:client[0].address,
-        City: client[0].city
+        email: client[0].email,
+        password: client[0].password,
+        
       };
 
       jwt.sign(
