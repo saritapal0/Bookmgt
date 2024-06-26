@@ -7,7 +7,7 @@ const loginService = require("../services/login/login_services"); // Corrected i
 const secret_key = '12'; // Note: Avoid using such simple keys in production
 
 router.post("/login", async (req, res) => {
-  const { username, email, password } = req.body;
+  const { email, password } = req.body;
   try {
     const login = await loginService.getClientByEmailANDPassword(email, password); // Corrected usage
     if (login) {

@@ -34,7 +34,7 @@ const LoginForm = () => {
         event.preventDefault();
 
         try {
-            const response = await axios.post('http://localhost:3000/login/addlogin', {
+            const response = await axios.post('http://localhost:3000/login/login', {
                 username,
                 email,
                 password,
