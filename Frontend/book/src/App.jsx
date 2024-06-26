@@ -6,6 +6,7 @@ const LoginForm = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
     const paperStyle = {
         display: 'flex',
@@ -23,7 +24,7 @@ const LoginForm = () => {
     };
 
     const submitStyle = {
-        margin: '12px 0 6px', // Adjusted margin for better spacing
+        margin: '12px 0 6px',
     };
 
     const handleSubmit = async (event) => {
@@ -37,14 +38,17 @@ const LoginForm = () => {
             });
 
             if (response.status === 200) {
-                // Handle successful login, e.g., set session or redirect
                 console.log('Login successful');
+                // Reset form fields on successful login
+                setUsername('');
+                setEmail('');
+                setPassword('');
             } else {
                 throw new Error('Login failed');
             }
         } catch (error) {
             console.error('Error during login:', error.message);
-            // Handle error (e.g., show error message to user)
+            setError('Failed to login. Please check your credentials.');
         }
     };
 
@@ -56,13 +60,18 @@ const LoginForm = () => {
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    height: '100vh', // Full viewport height
+                    height: '100vh',
                 }}
             >
                 <div style={paperStyle}>
                     <Typography component="h1" variant="h5">
                         User Login
                     </Typography>
+                    {error && (
+                        <Typography variant="body2" color="error" align="center">
+                            {error}
+                        </Typography>
+                    )}
                     <form style={formStyle} onSubmit={handleSubmit}>
                         <TextField
                             variant="outlined"

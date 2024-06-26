@@ -4,23 +4,22 @@ const jwt = require("jsonwebtoken");
 const ResponseManager = require("../response/responseManager");
 const loginservice = require("../services/login/login_services");
 
-const secret_key = '12';
+const secret_key = '12'; // Replace with your actual secret key
 
 router.post("/login", async (req, res) => {
-  const { client_name ,email, password } = req.body;
+  const { email, password } = req.body;
   try {
-    const client = await loginservice.getClientByEmailANDPassword(client_name,email,password);
+    const client = await loginservice.getClientByEmailANDPassword(email, password);
     if (client && client.length > 0) {
       const clientData = {
-        id: client[0].client_id,
-        name: client[0].client_name,
+        id: client[0].id,
+        username: client[0].username,
         email: client[0].email,
-        password: client[0].password,
-        
+        password: client[0].password // Note: Sending password in token payload is generally not recommended for security reasons
       };
 
       jwt.sign(
-        { clientData },
+        { clientData }, // Corrected from { userData }
         secret_key,
         { expiresIn: "2h" },
         (err, jwtToken) => {
@@ -54,7 +53,12 @@ router.post("/login", async (req, res) => {
         "Invalid email or password"
       );
     } else if (error.message.includes("undefined")) {
-      ResponseManager.sendError(res, 404, "CLIENT_NOT_FOUND", "Client not found");
+      ResponseManager.sendError(
+        res,
+        404,
+        "CLIENT_NOT_FOUND",
+        "Client not found"
+      );
     } else {
       ResponseManager.sendError(
         res,
