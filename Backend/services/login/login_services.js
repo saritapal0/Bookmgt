@@ -3,30 +3,31 @@ const db = require("../../db");
 class LoginService {
   async getClientByEmailANDPassword(email, password) {
     try {
-      const [client] = await db.query(
+      const [login] = await db.query(
         "SELECT * FROM login WHERE email = ? AND password = ?",
         [email, password]
       );
-      return client || null; // Return null if no client found
+      return login || null; // Return login or null if not found
     } catch (error) {
-      console.error("Error fetching client by email and password:", error);
+      console.error("Error fetching user by email and password:", error);
       throw error;
     }
   }
 
-  async getClientById(id) {
+  async getUserById(id) {
     try {
-      if (!client_id) {
-        throw new Error("client_id is not valid");
+      if (!id) {
+        throw new Error("ID is not valid");
       }
 
-      const [clientData] = await db.query(
-        "SELECT * FROM clients WHERE id = ?",
-        [client_id]
+      const [loginData] = await db.query(
+        "SELECT * FROM login WHERE id = ?",
+        [id]
       );
-      return clientData || null;
+      console.log('data2', loginData);
+      return loginData || null;
     } catch (error) {
-      console.error("Error fetching client by ID:", error);
+      console.error("Error fetching user by ID:", error);
       throw error;
     }
   }

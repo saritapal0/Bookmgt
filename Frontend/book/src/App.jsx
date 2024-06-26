@@ -16,6 +16,9 @@ const LoginForm = () => {
         border: '1px solid #ced4da',
         borderRadius: 5,
         backgroundColor: '#bbdefb',
+        maxWidth: 400,
+        margin: 'auto',
+        marginTop: 50,
     };
 
     const formStyle = {
@@ -31,7 +34,7 @@ const LoginForm = () => {
         event.preventDefault();
 
         try {
-            const response = await axios.post('http://localhost:3000/login/login', {
+            const response = await axios.post('http://localhost:3000/login/addlogin', {
                 username,
                 email,
                 password,
@@ -54,15 +57,7 @@ const LoginForm = () => {
 
     return (
         <Container component="main" maxWidth="xs">
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    height: '100vh',
-                }}
-            >
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
                 <div style={paperStyle}>
                     <Typography component="h1" variant="h5">
                         User Login
@@ -98,7 +93,6 @@ const LoginForm = () => {
                             label="Email"
                             name="email"
                             autoComplete="email"
-                            autoFocus
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             InputProps={{

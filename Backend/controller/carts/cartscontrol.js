@@ -4,7 +4,7 @@ const service = require("../../services/carts/carts_services");
 const ResponseManager = require("../../response/responseManager");
 const multer = require("multer");
 const fileuploader = require("../../Cloud/cloudinary");
-const image = require("../../Cloud/upload");
+const {image} = require("../../Cloud/upload");
 
 // Memory storage for multer
 const storage = multer.memoryStorage();

@@ -2,24 +2,23 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const ResponseManager = require("../response/responseManager");
-const loginservice = require("../services/login/login_services");
+const loginService = require("../services/login/login_services"); // Corrected import
 
-const secret_key = '12'; // Replace with your actual secret key
+const secret_key = '12'; // Note: Avoid using such simple keys in production
 
 router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+  const { username, email, password } = req.body;
   try {
-    const client = await loginservice.getClientByEmailANDPassword(email, password);
-    if (client && client.length > 0) {
-      const clientData = {
-        id: client[0].id,
-        username: client[0].username,
-        email: client[0].email,
-        password: client[0].password // Note: Sending password in token payload is generally not recommended for security reasons
+    const login = await loginService.getClientByEmailANDPassword(email, password); // Corrected usage
+    if (login) {
+      const loginData = {
+        id: login.id,
+        username: login.username,
+        email: login.email,
+        // Avoid sending password back to the client for security reasons
       };
-
       jwt.sign(
-        { clientData }, // Corrected from { userData }
+        { loginData },
         secret_key,
         { expiresIn: "2h" },
         (err, jwtToken) => {
@@ -34,7 +33,7 @@ router.post("/login", async (req, res) => {
           }
           ResponseManager.sendSuccess(
             res,
-            { client: clientData, jwtToken },
+            { login: loginData, jwtToken },
             200,
             "Login successful"
           );
@@ -51,13 +50,6 @@ router.post("/login", async (req, res) => {
         401,
         "INVALID_CREDENTIALS",
         "Invalid email or password"
-      );
-    } else if (error.message.includes("undefined")) {
-      ResponseManager.sendError(
-        res,
-        404,
-        "CLIENT_NOT_FOUND",
-        "Client not found"
       );
     } else {
       ResponseManager.sendError(
