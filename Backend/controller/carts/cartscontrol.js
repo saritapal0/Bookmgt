@@ -4,9 +4,8 @@ const service = require("../../services/carts/carts_services");
 const ResponseManager = require("../../response/responseManager");
 const multer = require("multer");
 const fileuploader = require("../../Cloud/cloudinary");
-const {image} = require("../../Cloud/upload");
 
-// Memory storage for multer
+// Configure multer for file upload
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
@@ -16,13 +15,17 @@ router.get("/getcart", async (req, res) => {
     const carts = await service.getcart();
     ResponseManager.sendSuccess(res, carts);
   } catch (err) {
-    ResponseManager.sendError(res, err.message);
+    ResponseManager.sendError(res, err.message); // Sending error message using ResponseManager
   }
 });
 
 // Route to add cart
 router.post("/addcart", upload.single("image"), async (req, res) => {
   try {
+    if (!req.file) {
+      throw new Error("No file uploaded"); // Handle case where no file is uploaded
+    }
+
     const fileBuffer = req.file.buffer;
     const formData = req.body;
 
@@ -37,7 +40,7 @@ router.post("/addcart", upload.single("image"), async (req, res) => {
 
     ResponseManager.sendSuccess(res, addedCart);
   } catch (err) {
-    ResponseManager.sendError(res, err.message);
+    ResponseManager.sendError(res, err.message); // Sending error message using ResponseManager
   }
 });
 
@@ -46,11 +49,11 @@ router.put("/updatecart/:cart_id", async (req, res) => {
   try {
     const affectedRows = await service.updatecart(req.body, req.params.cart_id);
     if (affectedRows === 0) {
-      return ResponseManager.statusError(res, 404, "No record found");
+      return ResponseManager.sendError(res, "No record found", 404); // Adjusted to use sendError for not found case
     }
-    ResponseManager.sendSuccess(res, "Updated successful");
+    ResponseManager.sendSuccess(res, "Update successful");
   } catch (err) {
-    ResponseManager.sendError(res, err.message);
+    ResponseManager.sendError(res, err.message); // Sending error message using ResponseManager
   }
 });
 
@@ -59,11 +62,11 @@ router.delete("/deletecart/:cart_id", async (req, res) => {
   try {
     const affectedRows = await service.deletecart(req.params.cart_id);
     if (affectedRows === 0) {
-      return ResponseManager.statusError(res, 404, "No record found");
+      return ResponseManager.sendError(res, "No record found", 404); // Adjusted to use sendError for not found case
     }
     ResponseManager.sendSuccess(res, "Delete successful");
   } catch (err) {
-    ResponseManager.sendError(res, err.message);
+    ResponseManager.sendError(res, err.message); // Sending error message using ResponseManager
   }
 });
 
