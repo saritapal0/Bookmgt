@@ -1,22 +1,25 @@
 import React from "react";
 import {
-  BrowserRouter as Router,
-  Routes,
+  createBrowserRouter,
+  createRoutesFromElements,
   Route,
 } from "react-router-dom";
-import FullLayout from "../layouts/Fulllayouts";
+import FullLayout from "../Layouts/Fulllayout";
 // import Dashboard from "../components/Dashboard/UserTable";
-//import Register from '../components/Register';
+// import Register from '../components/Register/Register'
 
-const AppRouter = () => (
-  <Router>
-    <Routes>
-      <Route path="/" element={<FullLayout />}>
+
+const routes = createBrowserRouter(
+  createRoutesFromElements(
+    <>
+
+      <Route path="/" element={<FullLayout />} >
         {/* <Route path="/dashboard" element={<Dashboard />} /> */}
-        {/* <Route path="/register" element={<Register />} /> */}
-      </Route>
-    </Routes>
-  </Router>
+        </Route>
+        {/* <Route path="/register" element={<Register/>} />  */}
+    
+    </>
+  )
 );
 
-export default AppRouter;
+export default routes;

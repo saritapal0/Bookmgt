@@ -1,64 +1,103 @@
-import React, { useState } from "react";
-import { AppBar, Toolbar, IconButton, Typography, Badge, Avatar, Popover, MenuItem } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import profileImageUrl from "../../assets/images/user.jpg";
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import MenuIcon from '@mui/icons-material/Menu';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
-const Header = ({ toggleMobileSidebar, sx }) => {
-  const [anchorEl, setAnchorEl] = useState(null);
+const drawerWidth = 240;
+const navItems = ['Home', 'About', 'Contact'];
 
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
+function DrawerAppBar(props) {
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen((prevState) => !prevState);
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
+  const drawer = (
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+      <Typography variant="h6" sx={{ my: 2 }}>
+        BOOK PUBLISHER
+      </Typography>
+      <Divider />
+      <List>
+        {navItems.map((item) => (
+          <ListItem key={item} disablePadding>
+            <ListItemButton sx={{ textAlign: 'center' }}>
+              <ListItemText primary={item} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
+
+  const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <AppBar position="fixed" sx={{ backgroundColor: 'white' }}>
-      <Toolbar>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="start"
-          onClick={toggleMobileSidebar} // Toggle sidebar on MenuIcon click
-          sx={{ mr: 2 }}
-        >
-          <MenuIcon />
-        </IconButton>
-        <div sx={{ flexGrow: 1 }} /> {/* Changed flexGrow value */}
-        <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-         Dashboard
-        </Typography>
-        <div sx={{ flexGrow: 1 }} /> {/* Added flexGrow */}
-        <IconButton color="inherit" sx={{ mr: 2 }}>
-          <Badge badgeContent={4} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <IconButton color="inherit" onClick={handleMenuOpen}>
-          <Avatar src={profileImageUrl} alt="Profile" />
-        </IconButton>
-        <Popover
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleMenuClose}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <AppBar component="nav" sx={{ backgroundColor: '#fff' }}>
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: 'none' } }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+          >
+            MUI
+          </Typography>
+          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+            {navItems.map((item) => (
+              <Button key={item} sx={{ color: '#000' }}>
+                {item}
+              </Button>
+            ))}
+          </Box>
+        </Toolbar>
+      </AppBar>
+      <nav>
+        <Drawer
+          container={container}
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
           }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
+          sx={{
+            display: { xs: 'block', sm: 'none' },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
           }}
         >
-          <MenuItem onClick={handleMenuClose}>Register</MenuItem>
-          <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
-        </Popover>
-      </Toolbar>
-    </AppBar>
+          {drawer}
+        </Drawer>
+      </nav>
+      <Box component="main" sx={{ p: 3 }}>
+        <Toolbar />
+      </Box>
+    </Box>
   );
-};
+}
 
-export default Header;
+export default DrawerAppBar;
