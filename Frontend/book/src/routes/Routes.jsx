@@ -5,7 +5,7 @@ import {
   Route,
 } from "react-router-dom";
 import FullLayout from "../Layouts/Fulllayout";
-// import Dashboard from "../components/Dashboard/UserTable";
+import Home from '../Home/Home'
 // import Register from '../components/Register/Register'
 
 
@@ -14,7 +14,7 @@ const routes = createBrowserRouter(
     <>
 
       <Route path="/" element={<FullLayout />} >
-        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+         <Route index element={<Home />} /> 
         </Route>
         {/* <Route path="/register" element={<Register/>} />  */}
     

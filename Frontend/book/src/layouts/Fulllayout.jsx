@@ -17,7 +17,7 @@ const ContentWrapper = styled("div")(({ theme }) => ({
   display: "flex",
   flex: "1 1 auto",
   overflow: "hidden",
-  paddingTop: "40px", // Adjust padding as needed
+  paddingTop: "55px", // Adjust padding as needed
 }));
 
 const App = () => {
