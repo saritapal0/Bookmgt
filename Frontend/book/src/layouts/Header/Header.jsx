@@ -16,6 +16,7 @@ import {
   Divider,
   ListItemIcon,
   Typography,
+  styled
 } from "@mui/material";
 
 import userimg from "../../assets/images/login.png";
@@ -40,6 +41,14 @@ const Header = (props) => {
   const handleClose4 = () => {
     setAnchorEl4(null);
   };
+  const ColoredText = styled('span')({
+    color: '#cddc39', // Yellow color
+  });
+  
+  const ColoredText2 = styled('span')({
+    color: '#00bfa5', // Light blue color
+  });
+  
 
   return (
     <AppBar
@@ -52,10 +61,12 @@ const Header = (props) => {
     >
       <Toolbar>
         {/* Logo on the left */}
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <img src={logo} alt="Logo" style={{ width: "60px", marginRight: "10px" }} />
-          <Typography variant="h6">BOOK PUBLISHER</Typography>
-        </Box>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+      <img src={logo} alt="Logo" style={{ width: "60px", marginRight: "10px" ,ml:'40px' }} />
+      <Typography variant="h3">
+        <ColoredText>BOOK</ColoredText> <ColoredText2>PUBLISHER</ColoredText2>
+      </Typography>
+    </Box>
 
         {/* Spacer */}
         <Box flexGrow={1} />
