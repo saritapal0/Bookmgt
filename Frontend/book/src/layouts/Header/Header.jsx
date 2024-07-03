@@ -19,7 +19,7 @@ import {
   styled
 } from "@mui/material";
 
-import userimg from "../../assets/images/login.png";
+import userimg from "../../assets/images/login.jpg";
 import logo from "../../assets/images/BOOK.webp";
 
 const Header = (props) => {
@@ -41,6 +41,11 @@ const Header = (props) => {
   const handleClose4 = () => {
     setAnchorEl4(null);
   };
+
+  const ColoredIconButton = styled(IconButton)({
+    color: "#004d40", // Light blue color
+  });
+
   const ColoredText = styled('span')({
     color: '#cddc39', // Yellow color
   });
@@ -48,7 +53,6 @@ const Header = (props) => {
   const ColoredText2 = styled('span')({
     color: '#00bfa5', // Light blue color
   });
-  
 
   return (
     <AppBar
@@ -61,26 +65,25 @@ const Header = (props) => {
     >
       <Toolbar>
         {/* Logo on the left */}
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-      <img src={logo} alt="Logo" style={{ width: "60px", marginRight: "10px" ,ml:'40px' }} />
-      <Typography variant="h3">
-        <ColoredText>BOOK</ColoredText> <ColoredText2>PUBLISHER</ColoredText2>
-      </Typography>
-    </Box>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <img src={logo} alt="Logo" style={{ width: "60px", marginRight: "10px", ml:'40px' }} />
+          <Typography variant="h3">
+            <ColoredText>BOOK</ColoredText> <ColoredText2>PUBLISHER</ColoredText2>
+          </Typography>
+        </Box>
 
         {/* Spacer */}
         <Box flexGrow={1} />
 
         {/* Notifications Icon */}
-        <IconButton
+        <ColoredIconButton
           aria-label="notifications"
-          color="inherit"
           aria-controls="notification-menu"
           aria-haspopup="true"
           onClick={handleClick}
         >
           <HomeIcon />
-        </IconButton>
+        </ColoredIconButton>
 
         {/* Profile Menu */}
         <Box sx={{ width: "1px", backgroundColor: "rgba(0,0,0,0.1)", height: "25px", ml: 1 }} />
